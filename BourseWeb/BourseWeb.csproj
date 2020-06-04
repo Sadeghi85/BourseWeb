@@ -43,11 +43,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -67,6 +78,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <EntityDeploy Include="Models\ModelBourse.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ModelBourse.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ModelBourse.edmx.diagram">
+      <DependentUpon>ModelBourse.edmx</DependentUpon>
+    </Content>
+    <Content Include="Fonts\web_Yekan.woff" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -75,10 +94,55 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="API\AveragePriceChart.asmx" />
+    <Content Include="Models\ModelBourse.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelBourse.edmx</DependentUpon>
+      <LastGenOutput>ModelBourse.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ModelBourse.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ModelBourse.edmx</DependentUpon>
+      <LastGenOutput>ModelBourse.cs</LastGenOutput>
+    </Content>
+    <Content Include="Pages\AveragePriceChart.aspx" />
+    <Content Include="Scripts\lightweight-charts.standalone.production.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\AveragePriceChart.asmx.cs">
+      <DependentUpon>AveragePriceChart.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Models\ModelBourse.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBourse.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelBourse.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBourse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelBourse.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelBourse.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\vwBazaarPanic.cs">
+      <DependentUpon>ModelBourse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AveragePriceChart.aspx.cs">
+      <DependentUpon>AveragePriceChart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\AveragePriceChart.aspx.designer.cs">
+      <DependentUpon>AveragePriceChart.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
