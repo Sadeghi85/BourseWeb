@@ -12,6 +12,9 @@ namespace BourseWeb.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Objects;
+    using System.Data.Objects.DataClasses;
+    using System.Linq;
     
     public partial class DB_BourseEntities : DbContext
     {
@@ -25,6 +28,15 @@ namespace BourseWeb.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public DbSet<vwBazaarPanic> vwBazaarPanic { get; set; }
+    
+        public virtual ObjectResult<spMarketValue_Result> spMarketValue()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spMarketValue_Result>("spMarketValue");
+        }
+    
+        public virtual ObjectResult<spAvgPrice_Result> spAvgPrice()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<spAvgPrice_Result>("spAvgPrice");
+        }
     }
 }

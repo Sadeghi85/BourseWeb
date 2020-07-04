@@ -18,7 +18,7 @@ namespace BourseWeb.Pages
             if (!IsPostBack)
             {
                 DB_BourseEntities ctx = new DB_BourseEntities();
-                var data = ctx.vwBazaarPanic.OrderBy(x => x.Date).ToList();
+                var data = ctx.spAvgPrice().OrderBy(x => x.Date).ToList();
 
                 List<PriceModel> PriceData = new List<PriceModel>();
                 List<VolumeModel> VolumeData = new List<VolumeModel>();
@@ -28,9 +28,9 @@ namespace BourseWeb.Pages
                 {
                     string color = "rgba(85, 185, 136, 0.8)";
 
-                    if (i>2)
+                    if (i > 2)
                     {
-                        if (((double)((data[i - 3].AvgVolumeWeightedPrice.Value - data[i].AvgVolumeWeightedPrice.Value) / data[i].AvgVolumeWeightedPrice.Value) > 0.035) && data[i].AvgVolumeWeightedPrice.Value < data[i - 2].AvgVolumeWeightedPrice.Value && data[i].AvgVolumeWeightedPrice.Value < data[i - 3].AvgVolumeWeightedPrice.Value && data[i - 1].AvgVolumeWeightedPrice.Value < data[i - 3].AvgVolumeWeightedPrice.Value && data[i - 2].AvgVolumeWeightedPrice.Value < data[i - 3].AvgVolumeWeightedPrice.Value)
+                        if (((double)((data[i - 3].AvgPrice.Value - data[i].AvgPrice.Value) / data[i].AvgPrice.Value) > 0.035) && data[i].AvgPrice.Value < data[i - 2].AvgPrice.Value && data[i].AvgPrice.Value < data[i - 3].AvgPrice.Value && data[i - 1].AvgPrice.Value < data[i - 3].AvgPrice.Value && data[i - 2].AvgPrice.Value < data[i - 3].AvgPrice.Value)
                         {
                             color = "rgba(234,82,82, 0.8)";
                         }
@@ -47,8 +47,8 @@ namespace BourseWeb.Pages
                         VolumeData[i - 1].color = "rgba(234,82,82, 0.8)";
                     }
 
-                    PriceData.Add(new PriceModel() { time = data[i].Date.ToString("yyyy-MM-dd"), value = data[i].AvgVolumeWeightedPrice.Value });
-                    VolumeData.Add(new VolumeModel() { time = data[i].Date.ToString("yyyy-MM-dd"), value = data[i].AvgVolume.Value, color = color });
+                    PriceData.Add(new PriceModel() { time = data[i].Date.ToString("yyyy-MM-dd"), value = data[i].AvgPrice });
+                    VolumeData.Add(new VolumeModel() { time = data[i].Date.ToString("yyyy-MM-dd"), value = data[i].AvgVolume, color = color });
 
                 }
  
@@ -61,13 +61,14 @@ namespace BourseWeb.Pages
         public class PriceModel
         {
             public string time { get; set; }
-            public decimal? value { get; set; }
+            //public decimal? value { get; set; }
+            public double? value { get; set; }
         }
 
         public class VolumeModel
         {
             public string time { get; set; }
-            public decimal? value { get; set; }
+            public double? value { get; set; }
             public string color { get; set; }
         }
     }

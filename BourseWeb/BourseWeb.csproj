@@ -106,6 +106,7 @@
       <LastGenOutput>ModelBourse.cs</LastGenOutput>
     </Content>
     <Content Include="Pages\AveragePriceChart.aspx" />
+    <Content Include="Pages\MarketValueChart.aspx" />
     <Content Include="Scripts\lightweight-charts.standalone.production.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -129,7 +130,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelBourse.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\vwBazaarPanic.cs">
+    <Compile Include="Models\spAvgPrice_Result.cs">
+      <DependentUpon>ModelBourse.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\spMarketValue_Result.cs">
       <DependentUpon>ModelBourse.tt</DependentUpon>
     </Compile>
     <Compile Include="Pages\AveragePriceChart.aspx.cs">
@@ -138,6 +142,13 @@
     </Compile>
     <Compile Include="Pages\AveragePriceChart.aspx.designer.cs">
       <DependentUpon>AveragePriceChart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MarketValueChart.aspx.cs">
+      <DependentUpon>MarketValueChart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\MarketValueChart.aspx.designer.cs">
+      <DependentUpon>MarketValueChart.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -7,79 +7,50 @@
     <Schema Namespace="DB_BourseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'DB_Bourse.dbo.vwBazaarPanic' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vwBazaarPanic">
-          <Key>
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="DatePersian" />
-          </Key>
-          <Property Name="Date" Type="smalldatetime" Nullable="false" />
-          <Property Name="DatePersian" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="AvgClosingPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="AvgVolumeWeightedPrice" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="AvgClosingPricePercentDiff" Type="numeric" Precision="19" Scale="2" />
-          <Property Name="AvgVolumeWeightedPricePercentDiff" Type="numeric" Precision="19" Scale="2" />
-          <Property Name="AvgClosingPricePercentChange" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="AvgVolumeWeightedPricePercentChange" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="AvgVolume" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>
+        <Function Name="spAvgPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spMarketValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="DB_BourseModelStoreContainer">
-          <EntitySet Name="vwBazaarPanic" EntityType="Self.vwBazaarPanic" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[vwBazaarPanic].[Date] AS [Date], 
-[vwBazaarPanic].[DatePersian] AS [DatePersian], 
-[vwBazaarPanic].[AvgClosingPrice] AS [AvgClosingPrice], 
-[vwBazaarPanic].[AvgVolumeWeightedPrice] AS [AvgVolumeWeightedPrice], 
-[vwBazaarPanic].[AvgClosingPricePercentDiff] AS [AvgClosingPricePercentDiff], 
-[vwBazaarPanic].[AvgVolumeWeightedPricePercentDiff] AS [AvgVolumeWeightedPricePercentDiff], 
-[vwBazaarPanic].[AvgClosingPricePercentChange] AS [AvgClosingPricePercentChange], 
-[vwBazaarPanic].[AvgVolumeWeightedPricePercentChange] AS [AvgVolumeWeightedPricePercentChange], 
-[vwBazaarPanic].[AvgVolume] AS [AvgVolume]
-FROM [dbo].[vwBazaarPanic] AS [vwBazaarPanic]</DefiningQuery>
-          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_BourseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DB_BourseEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="vwBazaarPanic" EntityType="DB_BourseModel.vwBazaarPanic" />
+          <FunctionImport Name="spMarketValue" ReturnType="Collection(DB_BourseModel.spMarketValue_Result)" />
+          <FunctionImport Name="spAvgPrice" ReturnType="Collection(DB_BourseModel.spAvgPrice_Result)" />
         </EntityContainer>
-        <EntityType Name="vwBazaarPanic">
-          <Key>
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="DatePersian" />
-          </Key>
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="DatePersian" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
-          <Property Name="AvgClosingPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AvgVolumeWeightedPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AvgClosingPricePercentDiff" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="AvgVolumeWeightedPricePercentDiff" Type="Decimal" Precision="19" Scale="2" />
-          <Property Name="AvgClosingPricePercentChange" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AvgVolumeWeightedPricePercentChange" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="AvgVolume" Type="Decimal" Precision="18" Scale="2" />
-        </EntityType>
+        <ComplexType Name="spMarketValue_Result">
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+          <Property Type="Double" Name="MarketValue" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spAvgPrice_Result">
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="16" />
+          <Property Type="Double" Name="AvgPrice" Nullable="true" />
+          <Property Type="Double" Name="AvgVolume" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DB_BourseModelStoreContainer" CdmEntityContainer="DB_BourseEntities">
-          <EntitySetMapping Name="vwBazaarPanic">
-            <EntityTypeMapping TypeName="DB_BourseModel.vwBazaarPanic">
-              <MappingFragment StoreEntitySet="vwBazaarPanic">
-                <ScalarProperty Name="AvgVolume" ColumnName="AvgVolume" />
-                <ScalarProperty Name="AvgVolumeWeightedPricePercentChange" ColumnName="AvgVolumeWeightedPricePercentChange" />
-                <ScalarProperty Name="AvgClosingPricePercentChange" ColumnName="AvgClosingPricePercentChange" />
-                <ScalarProperty Name="AvgVolumeWeightedPricePercentDiff" ColumnName="AvgVolumeWeightedPricePercentDiff" />
-                <ScalarProperty Name="AvgClosingPricePercentDiff" ColumnName="AvgClosingPricePercentDiff" />
-                <ScalarProperty Name="AvgVolumeWeightedPrice" ColumnName="AvgVolumeWeightedPrice" />
-                <ScalarProperty Name="AvgClosingPrice" ColumnName="AvgClosingPrice" />
-                <ScalarProperty Name="DatePersian" ColumnName="DatePersian" />
+          <FunctionImportMapping FunctionImportName="spMarketValue" FunctionName="DB_BourseModel.Store.spMarketValue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_BourseModel.spMarketValue_Result">
                 <ScalarProperty Name="Date" ColumnName="Date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="MarketValue" ColumnName="MarketValue" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAvgPrice" FunctionName="DB_BourseModel.Store.spAvgPrice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_BourseModel.spAvgPrice_Result">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="AvgPrice" ColumnName="AvgPrice" />
+                <ScalarProperty Name="AvgVolume" ColumnName="AvgVolume" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
